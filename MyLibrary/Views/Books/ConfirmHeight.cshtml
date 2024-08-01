@@ -1,0 +1,41 @@
+﻿@model MyLibrary.Models.Book
+@{
+    ViewData["Title"] = "Confirm Height";
+}
+
+<h1>Confirm Height</h1>
+
+<p>The height of the book is greater than the shelf height by more than 10 units. Do you want to proceed?</p>
+
+<form id="confirmForm" asp-action="Create" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="Name" value="@Model.Name" />
+    <input type="hidden" name="Width" value="@Model.Width" />
+    <input type="hidden" name="Height" value="@Model.Height" />
+    <input type="hidden" name="LibraryId" value="@Model.LibraryId" />
+
+    <button type="submit" class="btn btn-primary">Yes, proceed</button>
+    <a href="@Url.Action("Create")" class="btn btn-secondary">No, go back</a>
+</form>
+
+@section Scripts {
+    <script>
+        // Get book height and shelf height
+        var bookHeight = @Model.Height;
+        var shelfHeight = @ViewData["ShelfHeight"] || 0; // If `ShelfHeight` is not available, default to 0
+
+        // Function to check the height difference
+        function checkHeightDifference() {
+            if (bookHeight - shelfHeight > 10) {
+                // Prompt user to confirm
+                if (!confirm("The height of the book exceeds the shelf height by more than 10 units. Do you want to proceed?")) {
+                    // If the user cancels, prevent form submission
+                    event.preventDefault();
+                }
+            }
+        }
+
+        // Attach the function to the form submit event
+        document.getElementById('confirmForm').addEventListener('submit', checkHeightDifference);
+    </script>
+}

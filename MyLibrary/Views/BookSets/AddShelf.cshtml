@@ -1,0 +1,26 @@
+﻿@model MyLibrary.ViewModel.BookViewModel
+
+@{
+    ViewData["Title"] = "Add Shelf";
+}
+
+<h1>Add Shelf for Book Set</h1>
+
+<h4>Select Shelf</h4>
+<hr />
+<form id="addShelfForm" asp-action="AddShelf" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Book.BookSetId" />
+    <div class="form-group">
+        <label asp-for="Book.ShelfId" class="control-label">Shelf</label>
+        <select asp-for="Book.ShelfId" class="form-control" asp-items="Model.Shelves"></select>
+        <span asp-validation-for="Book.ShelfId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,53 @@
+﻿@model MyLibrary.Models.Book
+
+@{
+    ViewData["Title"] = "Add Shelf";
+}
+
+<h1>Add Shelf for Book Set: @Model.Name</h1>
+
+<h4>Select Shelf</h4>
+<hr />
+<form id="addShelfForm" asp-action="AddShelf" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="ShelfId" class="control-label">Shelf</label>
+        <select asp-for="ShelfId" class="form-control" asp-items="ViewBag.ShelfId"></select>
+        <span asp-validation-for="ShelfId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('addShelfForm').addEventListener('submit', function (event) {
+            
+            var bookHeight = @Model.Height;
+
+            var shelfSelect = document.querySelector('select[name="ShelfId"]');
+            var selectedShelfId = shelfSelect.value;
+
+            // עליך להוסיף כאן קוד לקבלת גובה המדף הנבחר מהשרת או להוסיף אותו ב-ViewBag
+            var selectedShelfHeight = 0; // כאן תצטרך לממש את קבלת גובה המדף הנבחר (או להוסיף את הנתון ב-ViewBag)
+
+            // אם הפער בגובה גדול מ-10, הצג פופ-אפ
+            if (selectedShelfHeight - bookHeight < 10) {
+                var confirmMessage = "The height of the book exceeds the shelf height by more than 10 units. Do you want to proceed?";
+                if (!confirm(confirmMessage)) {
+                    // אם המשתמש בוחר לא להמשיך, מנע שליחת הטופס
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
+}
